@@ -33,3 +33,18 @@ test("it submits the form when the button is clicked", async () => {
     email: userEmail,
   });
 });
+
+test("it clears the inputs after submitting the form", async () => {
+  render(<UserForm onUserAdd={() => {}} />);
+
+  const nameInput = screen.getByRole("textbox", { name: "Name" });
+  const emailInput = screen.getByRole("textbox", { name: "Email" });
+  const button = screen.getByRole("button");
+
+  await user.type(nameInput, "Bob Smith");
+  await user.type(emailInput, "bob@email.com");
+  await user.click(button);
+
+  expect(nameInput).toHaveValue("");
+  expect(emailInput).toHaveValue("");
+});
